@@ -35,7 +35,7 @@
   
     let teamMembers: TeamMember[] = [
       {
-        name: "Sarah Johnson",
+        name: "Campbell Baxley",
         role: "Manager",
         feeling: 85,
         tasks: [
@@ -44,7 +44,7 @@
         ]
       },
       {
-        name: "Mike Chen",
+        name: "Abi Clark",
         role: "Co-worker",
         feeling: 65,
         tasks: [
@@ -53,7 +53,7 @@
         ]
       },
       {
-        name: "Emma Davis",
+        name: "Drew Wentworth",
         role: "Co-worker",
         feeling: 90,
         tasks: [
@@ -64,9 +64,9 @@
     ];
   
     let requests: Request[] = [
-      { type: 'help', from: 'Mike Chen', task: 'API Integration' },
-      { type: 'trade', from: 'Emma Davis', task: 'User Testing', to: 'Mike Chen', tradeTask: 'Bug Fixes' },
-      { type: 'help', from: 'Sarah Johnson', task: 'Team Reviews' },
+      { type: 'help', from: 'Abi Clark', task: 'API Integration' },
+      { type: 'trade', from: 'Drew Wentworth', task: 'User Testing', to: 'Mike Chen', tradeTask: 'Bug Fixes' },
+      { type: 'help', from: 'Campbell Baxley', task: 'Team Reviews' },
     ];
   
     function getFeelingDescription(feeling: number): string {
@@ -138,24 +138,26 @@
             </tbody>
           </table>
         {:else if activeTab === "Status"}
-          <div class="status-content">
+        <div class="status-content">
             <div>
-              <h2>Current Status</h2>
-              <p>
-                Your current status is: <span class="status">{status}</span>
+              <h2 class="text-xl font-semibold mb-2">Current Status</h2>
+              <p class="text-lg">
+                Your current status is: <span class="font-bold text-green-600">{status}</span>
               </p>
-              <p class="description">
+              <p class="text-sm text-gray-600 mt-1">
                 This status indicates your availability to your team members. You can update it anytime.
               </p>
             </div>
             
             <div>
-              <h2>Productivity/Feeling</h2>
-              <progress value={feeling} max="100"></progress>
-              <p>
-                Your current feeling: <span class="feeling">{getFeelingDescription(feeling)}</span> ({feeling}%)
+              <h2 class="text-xl font-semibold mb-2">Productivity/Feeling</h2>
+              <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 mb-2">
+                <div class="bg-blue-600 h-4 rounded-full" style="width: {feeling}%"></div>
+              </div>
+              <p class="text-lg">
+                Your current feeling: <span class="font-bold">{getFeelingDescription(feeling)}</span> ({feeling}%)
               </p>
-              <p class="description">
+              <p class="text-sm text-gray-600 mt-1">
                 This progress bar represents your overall feeling or mood. It can help your team understand your current state and productivity level.
               </p>
             </div>
