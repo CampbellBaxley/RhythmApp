@@ -65,7 +65,7 @@
   
     let requests: Request[] = [
       { type: 'help', from: 'Abi Clark', task: 'API Integration' },
-      { type: 'trade', from: 'Drew Wentworth', task: 'User Testing', to: 'Mike Chen', tradeTask: 'Bug Fixes' },
+      { type: 'trade', from: 'Drew Wentworth', task: 'User Testing', to: 'Abi Clark', tradeTask: 'Bug Fixes' },
       { type: 'help', from: 'Campbell Baxley', task: 'Team Reviews' },
     ];
   
