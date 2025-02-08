@@ -13,6 +13,14 @@
       tasks: Task[];
     }
   
+    interface Request {
+      type: 'help' | 'trade';
+      from: string;
+      task: string;
+      to?: string;
+      tradeTask?: string;
+    }
+  
     let userName = "Ethan Scott";
     let status = "In Office";
     let activeTab = "Tasks";
@@ -55,6 +63,12 @@
       }
     ];
   
+    let requests: Request[] = [
+      { type: 'help', from: 'Mike Chen', task: 'API Integration' },
+      { type: 'trade', from: 'Emma Davis', task: 'User Testing', to: 'Mike Chen', tradeTask: 'Bug Fixes' },
+      { type: 'help', from: 'Sarah Johnson', task: 'Team Reviews' },
+    ];
+  
     function getFeelingDescription(feeling: number): string {
       if (feeling >= 80) return "Excellent";
       if (feeling >= 60) return "Good";
@@ -67,6 +81,13 @@
   
     function toggleMember(name: string) {
       expandedMember = expandedMember === name ? null : name;
+    }
+  
+    function handleRequest(request: Request, action: 'accept' | 'decline') {
+      // In a real application, you would handle the request here
+      // For now, we'll just remove the request from the list
+      requests = requests.filter(r => r !== request);
+      alert(`Request ${action}ed`);
     }
   </script>
   
@@ -180,7 +201,24 @@
             {/each}
           </div>
         {:else if activeTab === "Requests"}
-          <p>Content for Requests tab</p>
+          <div class="requests">
+            {#each requests as request}
+              <div class="request-card">
+                {#if request.type === 'help'}
+                  <p><strong>{request.from}</strong> is requesting help with the task: <strong>{request.task}</strong></p>
+                {:else if request.type === 'trade'}
+                  <p><strong>{request.from}</strong> wants to trade the task <strong>{request.task}</strong> with <strong>{request.to}</strong>'s task <strong>{request.tradeTask}</strong></p>
+                {/if}
+                <div class="request-actions">
+                  <button on:click={() => handleRequest(request, 'accept')} class="accept">Accept</button>
+                  <button on:click={() => handleRequest(request, 'decline')} class="decline">Decline</button>
+                </div>
+              </div>
+            {/each}
+            {#if requests.length === 0}
+              <p>No pending requests.</p>
+            {/if}
+          </div>
         {/if}
       </div>
     </div>
@@ -278,6 +316,42 @@
   
     .feeling {
       font-weight: bold;
+    }
+  
+    .requests {
+      display: grid;
+      gap: 1rem;
+    }
+  
+    .request-card {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 1rem;
+      background-color: #f9f9f9;
+    }
+  
+    .request-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+      gap: 0.5rem;
+    }
+  
+    .request-actions button {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .request-actions button.accept {
+      background-color: #4caf50;
+      color: white;
+    }
+  
+    .request-actions button.decline {
+      background-color: #f44336;
+      color: white;
     }
   </style>
   
