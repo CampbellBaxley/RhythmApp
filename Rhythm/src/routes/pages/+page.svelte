@@ -89,7 +89,7 @@
       requests = requests.filter(r => r !== request);
       alert(`Request ${action}ed`);
     }
-  </script>
+</script>
 
   <div class="container">
     <header class="header">
