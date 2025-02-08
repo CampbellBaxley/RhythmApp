@@ -93,7 +93,7 @@
 
 <div class="container">
   <header class="header">
-    <h1>Welcome, {userName}</h1>
+    <h1>{userName}, Welcome to Rhythm</h1>
     <div class="status-container">
       <span>Status: <span class="status">{status}</span></span>
       <span>Productivity/Feeling: <progress value={feeling} max="100"></progress></span>
@@ -344,7 +344,7 @@
 
   .progress-bar {
     height: 100%;
-    background-color: #4caf50;
+    background-color: #3498db;
   }
 
   .co-workers {
