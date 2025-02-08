@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import adapter from '@sveltejs/adapter-auto';
 
 /** @type {import('@sveltejs/kit').Config} */
