@@ -65,7 +65,7 @@
   
     let requests: Request[] = [
       { type: 'help', from: 'Abi Clark', task: 'API Integration' },
-      { type: 'trade', from: 'Drew Wentworth', task: 'User Testing', to: 'Mike Chen', tradeTask: 'Bug Fixes' },
+      { type: 'trade', from: 'Drew Wentworth', task: 'User Testing', to: 'Abi Clark', tradeTask: 'Bug Fixes' },
       { type: 'help', from: 'Campbell Baxley', task: 'Team Reviews' },
     ];
   
@@ -89,8 +89,8 @@
       requests = requests.filter(r => r !== request);
       alert(`Request ${action}ed`);
     }
-  </script>
-  
+</script>
+
   <div class="container">
     <header class="header">
       <h1>Welcome, {userName}</h1>
@@ -102,7 +102,7 @@
         <progress value={feeling} max="100"></progress>
       </div>
     </header>
-  
+
     <div class="card">
       <div class="tabs">
         {#each ["Tasks", "Status", "Co-workers", "Requests"] as tab}
@@ -114,7 +114,7 @@
           </button>
         {/each}
       </div>
-  
+
       <div class="content">
         {#if activeTab === "Tasks"}
           <table>
@@ -148,7 +148,7 @@
                 This status indicates your availability to your team members. You can update it anytime.
               </p>
             </div>
-            
+
             <div>
               <h2 class="text-xl font-semibold mb-2">Productivity/Feeling</h2>
               <div class="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700 mb-2">
@@ -225,7 +225,7 @@
       </div>
     </div>
   </div>
-  
+
   <style>
     .container {
       max-width: 1200px;
@@ -356,5 +356,3 @@
       color: white;
     }
   </style>
-  
-  
