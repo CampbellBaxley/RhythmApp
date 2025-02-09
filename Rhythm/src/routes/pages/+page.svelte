@@ -84,6 +84,12 @@
   }
 
   function handleRequest(request: Request, action: 'accept' | 'decline') {
+    if (request.type === 'trade') {
+      if (userName !== request.from && userName !== request.to) {
+        alert("You are not involved in this trade and cannot accept or decline it.");
+        return;
+      }
+    }
     // In a real application, you would handle the request here
     // For now, we'll just remove the request from the list
     requests = requests.filter(r => r !== request);
@@ -209,8 +215,12 @@
                 <p><strong>{request.from}</strong> wants to trade the task <strong>{request.task}</strong> with <strong>{request.to}</strong>'s task <strong>{request.tradeTask}</strong></p>
               {/if}
               <div class="request-actions">
-                <button on:click={() => handleRequest(request, 'accept')} class="accept">Accept</button>
-                <button on:click={() => handleRequest(request, 'decline')} class="decline">Decline</button>
+                {#if request.type === 'help' || (request.type === 'trade' && (userName === request.from || userName === request.to))}
+                  <button on:click={() => handleRequest(request, 'accept')} class="accept">Accept</button>
+                  <button on:click={() => handleRequest(request, 'decline')} class="decline">Decline</button>
+                {:else}
+                  <p>You are not involved in this trade.</p>
+                {/if}
               </div>
             </div>
           {/each}
@@ -224,153 +234,125 @@
 </div>
 
 <style>
-  body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
-  }
-
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-
-  .header {
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 1rem;
-    background-color: #ffffff;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    background-color: #f4f4f4;
+  }
+
+  .header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 80%;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .header h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
-    color: #2c3e50;
+    margin: 0;
   }
 
   .status-container {
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-top: 0.5rem;
-    font-size: 1rem;
-    color: #16a085;
+    align-items: center;
+    margin-top: 10px;
   }
 
   .status {
-    color: #27ae60;
     font-weight: bold;
+    color: #00b050;
   }
 
   .card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .tabs {
     display: flex;
-    border-bottom: 1px solid #ccc;
-    background-color: #ecf0f1;
+    margin-bottom: 20px;
   }
 
   .tabs button {
-    flex: 1;
-    padding: 0.5rem 1rem;
+    background-color: #eee;
     border: none;
-    background: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    font-family: 'Roboto', sans-serif;
-    transition: background-color 0.3s;
-  }
-
-  .tabs button:hover {
-    background-color: #bdc3c7;
   }
 
   .tabs button.active {
-    background-color: #95a5a6;
-    color: #ffffff;
-    font-weight: bold;
-  }
-
-  .content {
-    padding: 1rem;
+    background-color: #333;
+    color: #fff;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-family: 'Roboto', sans-serif;
   }
 
   th, td {
+    padding: 8px;
     text-align: left;
-    padding: 0.75rem;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
   }
 
-  th {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #ecf0f1;
+  progress {
+    width: 100px;
+    height: 20px;
   }
 
   .status-content {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .description {
-    font-size: 0.9rem;
-    color: #666;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
   }
 
   .progress-bar-container {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
+    width: 200px;
     height: 20px;
-    margin-bottom: 0.5rem;
+    background-color: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
   }
 
   .progress-bar {
     height: 100%;
-    background-color: #3498db;
+    background-color: #00b050;
+    border-radius: 5px;
   }
 
   .co-workers {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 
   .member-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 48%;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .member-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #ecf0f1;
     cursor: pointer;
-  }
-
-  .member-header h3 {
-    font-family: 'Montserrat', sans-serif;
   }
 
   .feeling-container {
@@ -378,51 +360,50 @@
     align-items: center;
   }
 
-  progress {
-    width: 100px;
-    margin-left: 0.5rem;
-  }
-
   .requests {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .request-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .request-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 1rem;
-    gap: 0.5rem;
+    margin-top: 5px;
   }
 
-  .request-actions button {
-    padding: 0.5rem 1rem;
+  .accept {
+    background-color: #00b050;
+    color: white;
     border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-family: 'Roboto', sans-serif;
   }
 
-  .request-actions button.accept {
-    background-color: #4caf50;
+  .decline {
+    background-color: #ff4d4d;
     color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
   }
 
-  .request-actions button.decline {
-    background-color: #f44336;
-    color: white;
+  .font-bold {
+    font-weight: bold;
   }
 
-  .request-actions button:hover {
-    opacity: 0.8;
+  .text-green-600 {
+    color: #22c55e;
   }
 </style>
+
