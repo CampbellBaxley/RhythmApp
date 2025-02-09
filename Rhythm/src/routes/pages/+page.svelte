@@ -404,6 +404,6 @@
 
   .text-green-600 {
     color: #22c55e;
-  }
-</style>
+  } 
 
+</style>
