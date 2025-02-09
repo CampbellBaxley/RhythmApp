@@ -12,6 +12,15 @@ async function createAuth() { // Renamed to createAuth, now a factory function
   return auth0Client; // Return the *same* instance every time
 }
 
+export async function createAuth() {
+  return await createAuth0Client({
+    domain: "dev-ba4xpno4nqxzrx06.us.auth0.com",
+    client_id: "UaM7904XjxEmJjprKJe38wq7x8ge3NF6",
+      authorizationParams: {
+          redirect_uri: window.location.origin,
+      },
+  });
+}
 
 async function login() {
   const authClient = await createAuth(); // Get the instance
